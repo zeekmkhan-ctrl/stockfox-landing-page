@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StockFox | AI Stock Research</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --sf-orange: #FF6600;
+            --sf-orange-glow: #ff8533;
+            --sf-dark-bg: #0F172A;
+            --sf-black-bg: #070B14;
+            --sf-card-bg: #1E293B;
+            --sf-green: #10B981;
+            --text-white: #F8FAFC;
+            --text-dim: #94A3B8;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background-color: var(--sf-dark-bg); 
+            color: var(--text-white); 
+            line-height: 1.7; 
+            font-size: 1.35rem; 
+        }
+
+        /* NAVIGATION - CONSTANT */
+        nav {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 1.5rem 8%; background: rgba(7, 11, 20, 0.95);
+            backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 1000;
+            border-bottom: 1px solid #334155;
+        }
+        .logo { font-size: 2.2rem; font-weight: 800; text-decoration: none; color: white; }
+        .logo span { color: var(--sf-orange); }
+
+        /* HERO SECTION - A/B TEST HEADLINE 1 */
+        header { text-align: center; padding: 140px 8% 100px; background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%); }
+        .hero-h1 { font-size: clamp(3.5rem, 8vw, 5rem); font-weight: 800; line-height: 1.1; margin-bottom: 30px; letter-spacing: -2px; }
+        .hero-p { font-size: 1.7rem; color: var(--text-dim); max-width: 900px; margin: 0 auto 50px; }
+
+        /* CTA BUTTONS - HIGH CONTRAST */
+        .cta-hard { 
+            background: var(--sf-orange); color: white; padding: 22px 50px; border-radius: 14px; 
+            font-weight: 800; font-size: 1.4rem; text-decoration: none; display: inline-block; 
+            border: none; cursor: pointer; transition: 0.3s;
+            box-shadow: 0 10px 20px rgba(255, 102, 0, 0.3);
+        }
+        .cta-hard:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(255, 102, 0, 0.5); background: var(--sf-orange-glow); }
+        
+        .cta-soft { background: transparent; color: white; border: 2px solid #334155; padding: 22px 50px; border-radius: 14px; font-weight: 700; font-size: 1.4rem; text-decoration: none; display: inline-block; transition: 0.3s; }
+
+        /* [SECTION 1] - TRUST REINFORCEMENT */
+        .trust-strip { background: #111827; padding: 40px 8%; border-bottom: 1px solid #1e293b; text-align: center; }
+        .trust-text { font-size: 1.6rem; font-weight: 700; color: var(--text-white); }
+
+        /* [SECTION 2] - TESTIMONIALS / SOCIAL PROOF */
+        .social-proof { background: var(--sf-black-bg); padding: 100px 8%; border-bottom: 1px solid #1e293b; }
+        .testi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 40px; margin-top: 60px; }
+        .testi-card { background: var(--sf-card-bg); padding: 45px; border-radius: 24px; border: 1px solid #334155; transition: 0.3s; }
+        .testi-card:hover { border-color: var(--sf-orange); }
+        .testi-card p { font-size: 1.4rem; font-style: italic; margin-bottom: 30px; color: var(--text-white); }
+        .user-info { display: flex; align-items: center; gap: 15px; }
+        .user-info strong { font-size: 1.2rem; display: block; }
+        .user-info span { color: var(--text-dim); font-size: 1.1rem; }
+
+        /* [SECTION 3] - HOW IT WORKS (Visual Hierarchy) */
+        section { padding: 120px 8%; }
+        .step-row { display: flex; align-items: center; gap: 100px; margin-bottom: 120px; }
+        .step-row:nth-child(even) { flex-direction: row-reverse; }
+        .step-text { flex: 1.2; }
+        .step-text h3 { font-size: 2.8rem; margin: 20px 0; font-weight: 800; color: white; }
+        .step-text p { font-size: 1.5rem; color: var(--text-dim); }
+        .step-img { flex: 1; border-radius: 30px; overflow: hidden; border: 1px solid #334155; height: 380px; }
+        .step-img img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* [SECTION 4] - REPEATED CTA BLOCK */
+        .cta-repeat-section { text-align: center; padding: 100px 8%; background: var(--sf-black-bg); border-top: 1px solid #1e293b; }
+        .cta-repeat-section h2 { font-size: 3rem; margin-bottom: 20px; font-weight: 800; }
+        .cta-repeat-section p { font-size: 1.6rem; color: var(--text-dim); margin-bottom: 50px; }
+
+        /* EMAIL CAPTURE */
+        .email-capture { padding: 100px 8%; text-align: center; background: #0F172A; }
+        .email-form { display: flex; gap: 15px; justify-content: center; max-width: 800px; margin: 40px auto 0; flex-wrap: wrap; }
+        .email-form input { flex: 1; padding: 22px; border-radius: 12px; border: 1px solid #334155; background: #111827; color: white; font-size: 1.3rem; min-width: 300px; }
+
+        /* FOOTER */
+        footer { padding: 100px 8% 50px; background: #05080f; border-top: 1px solid #1e293b; }
+        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1.5fr; gap: 60px; }
+
+        @media (max-width: 900px) {
+            .step-row, .footer-grid, .email-form { flex-direction: column !important; text-align: center; }
+            .hero-h1 { font-size: 3rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="#" class="logo">Stock<span>Fox</span></a>
+        <a href="#cta-block" class="cta-hard" style="padding: 12px 28px; font-size: 1.2rem;">Start Analysis</a>
+    </nav>
+
+    <header>
+        <h1 class="hero-h1">Invest with Confidence, <br><span style="color: var(--sf-orange);">Not Guesswork</span></h1>
+        <p class="hero-p">Stop guessing. Start understanding your stocks with AI-guided research that explains the "Why" in plain English.</p>
+        <div style="display: flex; gap: 20px; justify-content: center;">
+            <a href="#cta-block" class="cta-hard">Start Free Analysis</a>
+            <a href="#how" class="cta-soft">See How it Works</a>
+        </div>
+    </header>
+
+    <div class="trust-strip">
+        <p class="trust-text">Trusted by 15,000+ investors across India</p>
+    </div>
+
+    <section class="social-proof">
+        <h2 style="font-size: 3rem; text-align: center; font-weight: 800;">Real Stories from Real Investors</h2>
+        <div class="testi-grid">
+            <div class="testi-card">
+                <p>"StockFox helped me cut research time by 70% — I finally feel confident in my stock decisions."</p>
+                <div class="user-info">
+                    <strong>Ankit R.</strong>
+                    <span>Bengaluru</span>
+                </div>
+            </div>
+            <div class="testi-card">
+                <p>"I used to be overwhelmed by charts. StockFox explained it in plain English — now I understand my portfolio."</p>
+                <div class="user-info">
+                    <strong>Priya S.</strong>
+                    <span>Jaipur</span>
+                </div>
+            </div>
+            <div class="testi-card">
+                <p>"With StockFox, I finally know why I own a stock, not just what to buy. It's built my conviction."</p>
+                <div class="user-info">
+                    <strong>Rohit M.</strong>
+                    <span>Mumbai</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="how">
+        <h2 style="font-size: 3.5rem; text-align: center; margin-bottom: 80px; font-weight: 800;">The 3-Step Framework</h2>
+        
+        <div class="step-row">
+            <div class="step-text">
+                <span style="color:var(--sf-orange); font-weight:800; font-size:1.2rem;">STEP 01</span>
+                <h3>Stop Guessing. Search Any Stock.</h3>
+                <p>Pull 10 years of financial history for NSE/BSE stocks. We organize the data so you can see the big picture in seconds.</p>
+            </div>
+            <div class="step-img"><img src="https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?auto=format&fit=crop&q=80&w=800" alt="Market Data"></div>
+        </div>
+
+        <div class="step-row">
+            <div class="step-text">
+                <span style="color:var(--sf-orange); font-weight:800; font-size:1.2rem;">STEP 02</span>
+                <h3>Make Data-Backed Decisions.</h3>
+                <p>Our AI explains complex ratios in simple language. You'll know if a stock is a solid investment or a hidden trap.</p>
+            </div>
+            <div class="step-img"><img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=800" alt="AI Analysis"></div>
+        </div>
+    </section>
+
+    <div id="cta-block" class="cta-repeat-section">
+        <h2>Ready to analyze your first stock?</h2>
+        <p>Start your AI-guided research now and invest with logic.</p>
+        <a href="#" class="cta-hard" style="padding: 25px 60px; font-size: 1.6rem;">Start Free Analysis</a>
+    </div>
+
+    <section class="email-capture">
+        <h2 style="font-size: 3rem; font-weight: 800;">Weekly Insights to Your Inbox</h2>
+        <p style="font-size: 1.5rem; color: var(--text-dim); margin-top: 20px;">Simplified stock research for beginners and experts alike.</p>
+        <form class="email-form">
+            <input type="email" placeholder="Enter your email address" required>
+            <button type="submit" class="cta-hard">Join 15,000+ Investors</button>
+        </form>
+    </section>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <a href="#" class="logo">Stock<span>Fox</span></a>
+                <p style="margin-top: 25px;">Helping you build a high-conviction portfolio with logic and data.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Contact Us</h4>
+                <p>support@stockfox.ai</p>
+                <p>+91 98765 43210</p>
+            </div>
+            <div class="footer-col">
+                <h4>Product</h4>
+                <ul style="list-style: none;">
+                    <li><a href="#how">How it Works</a></li>
+                    <li><a href="#cta-block">Pricing</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Get the App</h4>
+                <div style="display: flex; flex-direction: column; gap: 12px;">
+                    <button style="background: #1e293b; color: white; padding: 15px; border: none; border-radius: 10px; font-weight: 700; cursor: pointer;">Play Store</button>
+                    <button style="background: #1e293b; color: white; padding: 15px; border: none; border-radius: 10px; font-weight: 700; cursor: pointer;">App Store</button>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
